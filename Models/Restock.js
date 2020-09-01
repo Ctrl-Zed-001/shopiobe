@@ -21,13 +21,14 @@ const restockSchema = mongoose.Schema({
             sku: Number,
             displayimage: String,
             incomming: Number,
-            recieved: Number,
-            canceled: Number,
-            returned: Number
+            recieved: { type: Number, default: 0 },
+            canceled: { type: Number, default: 0 },
+            returned: { type: Number, default: 0 },
         }
     ],
     expected: Date,
     tracking_number: Number,
+    status: { type: String, default: "Pending" }
     // TODO : TO WHICH STORE IT WILL GO
 })
 

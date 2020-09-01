@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
-const Restock = require("../Models/Restock")
+const Restock = require("../Models/Restock");
+const Product = require("../Models/Product")
 
 // GET ALL RESTOCKS
 router.get("/getAll", (req, res, next) => {
@@ -27,6 +28,53 @@ router.post('/addNew', (req, res, next) => {
         })
         .catch(err => {
             res.status(500).send(err)
+        })
+})
+
+// UPDATE RESTOCK DATA
+router.post('/update', (req, res, next) => {
+    Restock.findById(req.body.id)
+        .then(doc => {
+
+            let totalIncomming = 0;
+            let totalUpdates = 0;
+
+            // MAP ALL PRODUCTS AND GET EACH FIELD AND ADD VALUE TO EXISTING
+            doc.products.map(product => {
+                req.body.data.map(newproduct => {
+                    if (newproduct.sku === product.sku) {
+                        product.recieved = product.recieved + parseInt(newproduct.recieved);
+                        product.canceled = product.canceled + parseInt(newproduct.canceled);
+                        product.returned = product.returned + parseInt(newproduct.returned);
+                    }
+
+                    // TODO :FIND THE PRODUCT IN PRODUCT MASTER AND UPDATE ITS INVENTORY IF ITEMS ARE ACCEPTED OR RETURNED
+
+                })
+
+
+                // FOR STATUS PURPOSE
+                totalIncomming = totalIncomming + product.incomming;
+                totalUpdates = totalUpdates + product.recieved + product.canceled + product.returned
+            })
+            if (totalUpdates == totalIncomming) {
+                doc.status = "Completed";
+            }
+
+
+
+
+
+            doc.save()
+                .then(newrestock => {
+                    res.status(200).send(newrestock)
+                }).catch(error => {
+                    res.send(error)
+                })
+
+        })
+        .catch(err => {
+            res.send(err)
         })
 })
 
