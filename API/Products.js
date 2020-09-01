@@ -15,7 +15,7 @@ var productstorage = multer.diskStorage({
     }
 })
 var upload = multer({ storage: productstorage })
-var productupload = upload.fields([{ name: 'displayimage', maxCount: 1 }, { name: 'additionalimages', maxCount: 6 }])
+var productupload = upload.fields([{ name: 'displayurl', maxCount: 1 }, { name: 'additionalurls', maxCount: 6 }])
 
 
 // GET ALL PRODUCTS
@@ -25,7 +25,7 @@ router.get("/getall", (req, res, next) => {
             res.send(doc)
         })
         .catch(err => {
-            console.log(err)
+            res.send(err)
         })
 })
 
@@ -44,12 +44,12 @@ router.get("/:id", (req, res, next) => {
 router.post("/addnew", productupload, (req, res, next) => {
 
     let dp = "";
-    if (req.files.displayimage !== undefined) {
-        dp = `${url}/products/${req.files.displayimage[0].originalname}`;
+    if (req.files.displayurl !== undefined) {
+        dp = `${url}/products/${req.files.displayurl[0].originalname}`;
     }
     let mp = [];
-    if (req.files.additionalimages) {
-        req.files.additionalimages.map(image => {
+    if (req.files.additionalurls) {
+        req.files.additionalurls.map(image => {
             mp = [
                 ...mp,
                 `${url}/products/${image.originalname}`
@@ -84,8 +84,8 @@ router.post("/addnew", productupload, (req, res, next) => {
                         width: req.body.width,
                         length: req.body.length
                     },
-                    displayimage: dp,
-                    additionalimages: mp,
+                    displayurl: dp,
+                    additionalurls: mp,
                     video: req.body.video,
                     metatitle: req.body.metatitle,
                     metadescription: req.body.metadescription,
@@ -121,8 +121,8 @@ router.post("/edit", productupload, (req, res, next) => {
             length: req.body.length
         },
         // TODO : SHOULD UPDATE WITH AND WITHOUT IMAGE UPLOAD
-        // displayimage: `${url}/products/${req.file.originalname}`,
-        displayimage: req.body.displayimage,
+        // displayurl: `${url}/products/${req.file.originalname}`,
+        displayurl: req.body.displayurl,
         video: req.body.video,
         metatitle: req.body.metatitle,
         metadescription: req.body.metadescription,

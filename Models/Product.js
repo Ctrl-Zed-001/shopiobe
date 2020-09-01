@@ -18,8 +18,8 @@ const ProductSchema = new mongoose.Schema({
         width: Number,
         length: Number
     },
-    displayimage: String,
-    additionalimages: [String],
+    displayurl: String,
+    additionalurls: [String],
     video: String,
     barcode: Number,
     stock: Number,

@@ -11,8 +11,13 @@ const UserSchema = new mongoose.Schema({
         State: String,
         pincode: Number
     },
-    image: String,
-    joindate: Date
+    profileurl: String,
+    joindate: Date,
+    orders: [
+        {
+            orderid: { type: mongoose.Schema.Types.ObjectId, ref: "orders" },
+        }
+    ]
 })
 
 const user = mongoose.model("user", UserSchema)
