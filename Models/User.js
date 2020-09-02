@@ -8,11 +8,12 @@ const UserSchema = new mongoose.Schema({
     address: {
         line1: String,
         city: String,
-        State: String,
-        pincode: Number
+        state: String,
+        pincode: Number,
+        country: String
     },
     profileurl: String,
-    joindate: Date,
+    joindate: { type: Date, default: Date.now() },
     orders: [
         {
             orderid: { type: mongoose.Schema.Types.ObjectId, ref: "orders" },

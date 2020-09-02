@@ -13,11 +13,19 @@ router.get("/all", (req, res, next) => {
         })
 })
 
-router.post("/addnew", (req, res, next) => {
+router.post("/create", (req, res, next) => {
     const newUser = new User({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        phone: req.body.phone,
+        address: {
+            line1: req.body.line1,
+            city: req.body.city,
+            state: req.body.state,
+            pincode: req.body.pincode,
+            country: req.body.country
+        }
     });
     User.findOne({ email: req.body.email })
         .then(user => {
@@ -34,8 +42,8 @@ router.post("/addnew", (req, res, next) => {
                                 .then(doc => {
                                     res.status(201).send(doc)
                                 })
-                                .catch(error => {
-                                    res.status(500).send(err)
+                                .catch(er => {
+                                    res.status(500).send(er)
                                 })
                         })
 
