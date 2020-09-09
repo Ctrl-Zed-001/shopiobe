@@ -13,6 +13,16 @@ router.get("/all", (req, res, next) => {
         })
 })
 
+router.get("/:id", (req, res, next) => {
+    User.findById(req.params.id)
+        .then(doc => {
+            res.status(200).send(doc)
+        })
+        .catch(err => {
+            res.status(500).send(err)
+        })
+})
+
 router.post("/create", (req, res, next) => {
     const newUser = new User({
         name: req.body.name,
@@ -40,6 +50,7 @@ router.post("/create", (req, res, next) => {
                             newUser.password = hash;
                             newUser.save()
                                 .then(doc => {
+                                    // TODO: MAIL THE CUSTOMER THE DETAILS LIKE PASSWORD
                                     res.status(201).send(doc)
                                 })
                                 .catch(er => {

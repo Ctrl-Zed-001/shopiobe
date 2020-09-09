@@ -20,6 +20,7 @@ const users = require("./API/User")
 const inventory = require("./API/Inventory")
 const vendor = require("./API/Vendor")
 const restock = require("./API/Restock")
+const order = require("./API/Order")
 
 mongoose.set('useFindAndModify', false);
 // CONNECT TO DB
@@ -41,6 +42,7 @@ app.use("/api/users", users)
 app.use('/api/inventory', inventory)
 app.use("/api/vendor", vendor)
 app.use("/api/restock", restock)
+app.use("/api/order", order)
 
 
 
