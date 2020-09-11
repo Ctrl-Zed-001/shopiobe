@@ -16,6 +16,7 @@ const orderSchema = mongoose.Schema({
     recieved: Number,
     pending: Number,
     paymentmode: String,
+    paymentstatus: String,
     status: String
 })
 const order = mongoose.model("order", orderSchema)

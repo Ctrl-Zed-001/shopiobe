@@ -2,6 +2,16 @@ const express = require("express")
 const router = express.Router()
 const Order = require("../Models/Order")
 
+router.get("/all", (req, res, next) => {
+    Order.find()
+        .then(doc => {
+            res.status(200).send(doc)
+        })
+        .catch(err => {
+            res.status(500).send(err)
+        })
+})
+
 router.post("/new", (req, res, next) => {
     let today = new Date()
     let productArray = [];
@@ -23,7 +33,8 @@ router.post("/new", (req, res, next) => {
         recieved: req.body.recieved,
         pending: req.body.pending,
         paymentmode: req.body.paymentmode,
-        status: req.body.status
+        paymentstatus: req.body.paymentstatus,
+        status: req.body.orderstatus
     })
 
     newOrder.save()

@@ -46,6 +46,8 @@ router.post("/addnew", productupload, (req, res, next) => {
     let dp = "";
     if (req.files.displayurl !== undefined) {
         dp = `${url}/products/${req.files.displayurl[0].originalname}`;
+    } else {
+        dp = `${url}/products/no-product.png`;
     }
     let mp = [];
     if (req.files.additionalurls) {
@@ -68,7 +70,7 @@ router.post("/addnew", productupload, (req, res, next) => {
                     category: req.body.category,
                     shortdescription: req.body.shortdescription,
                     longdescription: req.body.longdescription,
-                    slashedprice: req.body.slashedprice,
+                    mrp: req.body.slashedprice,
                     price: req.body.price,
                     cost: req.body.cost,
                     margin: req.body.margin,
