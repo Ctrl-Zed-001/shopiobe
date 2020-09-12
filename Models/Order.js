@@ -6,8 +6,9 @@ const orderSchema = mongoose.Schema({
     products: [
         {
             _id: { type: mongoose.Schema.Types.ObjectId, ref: "products" },
-            quantity: Number,
-            total: Number
+            name: String,
+            price: Number,
+            quantity: Number
         }
     ],
     grandtotal: Number,

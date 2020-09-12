@@ -46,18 +46,25 @@ router.post('/update', (req, res, next) => {
                         product.recieved = product.recieved + parseInt(newproduct.recieved);
                         product.canceled = product.canceled + parseInt(newproduct.canceled);
                         product.returned = product.returned + parseInt(newproduct.returned);
+
+                        Product.findById(product._id)
+                            .then(prod => {
+                                prod.stock += parseInt(newproduct.recieved);
+                                prod.stock -= parseInt(newproduct.returned);
+                                prod.save();
+                            })
+                            .catch(er => {
+                                res.status(500).send(er)
+                            })
                     }
-
-                    // TODO :FIND THE PRODUCT IN PRODUCT MASTER AND UPDATE ITS INVENTORY IF ITEMS ARE ACCEPTED OR RETURNED
-
                 })
 
 
                 // FOR STATUS PURPOSE
                 totalIncomming = totalIncomming + product.incomming;
-                totalUpdates = totalUpdates + product.recieved + product.canceled + product.returned
+                totalUpdates = totalUpdates + product.recieved + product.canceled
             })
-            if (totalUpdates == totalIncomming) {
+            if (totalUpdates >= totalIncomming) {
                 doc.status = "Completed";
             }
 

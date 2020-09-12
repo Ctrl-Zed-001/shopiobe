@@ -19,7 +19,7 @@ const restockSchema = mongoose.Schema({
             _id: { type: mongoose.Schema.Types.ObjectId, ref: "products" },
             name: String,
             sku: Number,
-            displayimage: String,
+            displayurl: String,
             incomming: Number,
             recieved: { type: Number, default: 0 },
             canceled: { type: Number, default: 0 },
@@ -29,7 +29,6 @@ const restockSchema = mongoose.Schema({
     expected: Date,
     tracking_number: Number,
     status: { type: String, default: "Pending" }
-    // TODO : TO WHICH STORE IT WILL GO
 })
 
 
