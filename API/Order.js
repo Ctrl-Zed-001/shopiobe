@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const Order = require("../Models/Order")
+const Product = require("../Models/Product")
 
 router.get("/all", (req, res, next) => {
     Order.find()
@@ -33,6 +34,22 @@ router.post("/new", (req, res, next) => {
             quantity: product.quantity
         }
         productArray.push(newProductObject)
+
+
+
+        // INCREASE SOLD_QUANTITY OF PRODUCT IN THE PRODUCT COLLECTION
+        Product.findById(product._id)
+            .then(doc => {
+                doc.quantity_sold += product.quantity;
+
+                // DECREASE STOCK QUANTITY OF THE PRODUCT
+                doc.stock -= product.quantity;
+
+                doc.save()
+            })
+            .catch(er => {
+                console.log(er)
+            })
     })
     const newOrder = new Order({
         date: today,

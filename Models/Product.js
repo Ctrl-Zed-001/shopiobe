@@ -53,7 +53,8 @@ const ProductSchema = new mongoose.Schema({
     metadescription: String,
     metakeywords: String,
     published: Boolean,
-    vendor: String
+    vendor: String,
+    quantity_sold: { type: Number, default: 0 }
 })
 
 const product = mongoose.model("product", ProductSchema)
