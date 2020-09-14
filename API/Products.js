@@ -58,7 +58,7 @@ router.post("/addnew", productupload, (req, res, next) => {
             ]
         })
     }
-    Product.findOne({ sku: req.body.sku })
+    Product.findOne({ barcode: req.body.barcode })
         .then(product => {
             if (product) {
                 res.status(400).json({ message: "Product already exists" })
@@ -70,7 +70,7 @@ router.post("/addnew", productupload, (req, res, next) => {
                     category: req.body.category,
                     shortdescription: req.body.shortdescription,
                     longdescription: req.body.longdescription,
-                    mrp: req.body.slashedprice,
+                    mrp: req.body.mrp,
                     price: req.body.price,
                     cost: req.body.cost,
                     margin: req.body.margin,
@@ -108,35 +108,79 @@ router.post("/addnew", productupload, (req, res, next) => {
 
 // EDIT SINGLE PRODUCT
 router.post("/edit", productupload, (req, res, next) => {
-    const updatedValues = {
-        code: req.body.code,
+    let dp = "";
+    if (req.files.displayurl !== undefined) {
+        dp = `${url}/products/${req.files.displayurl[0].originalname}`;
+    } else {
+        dp = req.body.displayurl
+    }
+    let mp = [];
+    if (req.files.additionalurls) {
+        req.files.additionalurls.map(image => {
+            mp = [
+                ...mp,
+                `${url}/products/${image.originalname}`
+            ]
+        })
+    } else if (req.body.additionalurls == undefined) {
+
+        mp = []
+
+    } else {
+        mp = [
+            ...mp,
+            req.body.additionalurls
+        ]
+    }
+
+    const newFields = {
+        sku: req.body.sku,
         name: req.body.name,
         brand: req.body.brand,
         category: req.body.category,
         shortdescription: req.body.shortdescription,
         longdescription: req.body.longdescription,
+        mrp: req.body.mrp,
         price: req.body.price,
+        cost: req.body.cost,
+        margin: req.body.margin,
+        profit: req.body.profit,
+        stock: req.body.stock,
+        lowstock: req.body.lowstock,
+        minquantity: req.body.minquantity,
+        maxquantity: req.body.maxquantity,
+        barcode: req.body.barcode,
         dimensions: {
             weight: req.body.weight,
             height: req.body.height,
             width: req.body.width,
             length: req.body.length
         },
-        // TODO : SHOULD UPDATE WITH AND WITHOUT IMAGE UPLOAD
-        // displayurl: `${url}/products/${req.file.originalname}`,
-        displayurl: req.body.displayurl,
+        displayurl: dp,
+        additionalurls: mp,
         video: req.body.video,
         metatitle: req.body.metatitle,
         metadescription: req.body.metadescription,
         metakeywords: req.body.metakeywords,
+        published: req.body.published,
+        vendor: req.body.vendor
     }
-    Product.findByIdAndUpdate(req.body.id, updatedValues, { new: true })
+    Product.findByIdAndUpdate(req.body.id, newFields, (err, doc) => {
+        if (err) {
+            res.status(500).send(err)
+        } else {
+            res.status(200).send(doc)
+        }
+    })
+})
+
+// DELETE PRODUCT BY ID
+router.delete("/delete/:id", (req, res, next) => {
+    Product.findByIdAndDelete(req.body.id)
         .then(doc => {
             res.status(200).send(doc)
         })
-        .catch(err => {
-            res.status(500).send(err)
-        })
+        .catch(err => res.status(500).send(err))
 })
 
 // PUBLISH / UNPUBLISH SINGLE PRODUCT

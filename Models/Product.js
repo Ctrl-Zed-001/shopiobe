@@ -5,27 +5,27 @@ const ProductSchema = new mongoose.Schema({
     name: String,
     brand: String,
     category: [String],
-    shortdescription: String,
-    longdescription: String,
+    shortdescription: { type: String, default: "" },
+    longdescription: { type: String, default: "" },
     mrp: Number,
     price: Number,
     cost: Number,
     profit: Number,
     margin: Number,
     dimensions: {
-        weight: Number,
-        height: Number,
-        width: Number,
-        length: Number
+        weight: { type: Number, default: "0" },
+        height: { type: Number, default: "0" },
+        width: { type: Number, default: "0" },
+        length: { type: Number, default: "0" }
     },
     displayurl: String,
     additionalurls: [String],
-    video: String,
+    video: { type: String, default: "" },
     barcode: Number,
     stock: Number,
     lowstock: Number,
-    minquantity: Number,
-    maxquantity: Number,
+    minquantity: { type: Number, default: "0" },
+    maxquantity: { type: Number, default: "0" },
     variations: [
         {
             vlabel: String,
@@ -49,11 +49,11 @@ const ProductSchema = new mongoose.Schema({
         rating: Number,
         comment: String
     }],
-    metatitle: String,
-    metadescription: String,
-    metakeywords: String,
+    metatitle: { type: String, default: "" },
+    metadescription: { type: String, default: "" },
+    metakeywords: { type: String, default: "" },
     published: Boolean,
-    vendor: String,
+    vendor: { type: String, default: "" },
     quantity_sold: { type: Number, default: 0 }
 })
 
