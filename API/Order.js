@@ -72,8 +72,16 @@ router.post("/new", (req, res, next) => {
         .catch(err => {
             res.status(500).send(err)
         })
+})
 
-    // TODO : AFETR GENERATING NEW ORDER THE ORDER ID SHOULD BE ADDED TO USERS DB IF USER IS SELECTED DURING CHECKOUT
+router.get("/byuser/:id", (req, res, next) => {
+    Order.find({ user: req.params.id })
+        .then(doc => {
+            res.status(200).send(doc)
+        })
+        .catch(err => {
+            res.status(500).send(err)
+        })
 })
 
 module.exports = router
