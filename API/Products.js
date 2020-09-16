@@ -176,8 +176,7 @@ router.post("/edit", productupload, (req, res, next) => {
 
 // DELETE PRODUCT BY ID
 router.delete("/delete/:id", (req, res, next) => {
-
-    Product.findByIdAndDelete(req.body.id)
+    Product.findByIdAndDelete(req.params.id)
         .then(doc => {
             res.status(200).send(doc)
         })
