@@ -37,7 +37,7 @@ mongoose.connect(mongourl, { useNewUrlParser: true, useUnifiedTopology: true })
 app.use(express.static("images"))
 
 // TESTING IF API WORKS
-app.get("/test", (req,res) =>{
+app.get("/", (req,res) =>{
     res.send("welcome to shopio API")
 })
 
