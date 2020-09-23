@@ -14,7 +14,7 @@ app.use(bodyParser.json())
 app.use(cors())
 
 // API ROUTES
-const login = require("./API/Login")
+const auth = require("./API/Auth")
 const products = require("./API/Products")
 const users = require("./API/User")
 const inventory = require("./API/Inventory")
@@ -42,7 +42,7 @@ app.get("/", (req,res) =>{
 })
 
 // SET ROUTES
-app.use("/api/login", login)
+app.use("/api/auth", auth)
 app.use("/api/products", products)
 app.use("/api/users", users)
 app.use('/api/inventory', inventory)
