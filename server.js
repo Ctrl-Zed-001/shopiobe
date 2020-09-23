@@ -25,7 +25,7 @@ const report = require("./API/Report")
 
 mongoose.set('useFindAndModify', false);
 // CONNECT TO DB
-mongoose.connect(mongourl, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URI || mongourl, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log("connected");
         const port = process.env.PORT || 5000;
