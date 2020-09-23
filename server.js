@@ -31,7 +31,7 @@ mongoose.connect(mongourl, { useNewUrlParser: true, useUnifiedTopology: true })
         const port = process.env.PORT || 5000;
         app.listen(port)
     })
-    .catch(() => console.log("unable to connect"))
+    .catch((dberror) => console.log(dberror))
 
 // SET STATIC IMAGES PATH
 app.use(express.static("images"))
